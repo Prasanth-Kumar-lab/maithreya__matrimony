@@ -163,7 +163,7 @@ import '../model/home_screen_model.dart';
 class HomeController extends GetxController {
   final CardController cardController = CardController();
   var currentIndex = 0.obs; // Reactive current index
-  var users = <UserProfiles>[].obs; // Reactive list for users
+  var users = <UserProfiles>[].obs; // Reactive list for usersj
   var isLoading = false.obs; // Loading state
   var errorMessage = ''.obs; // Error message state
   var userProfile = Rxn<UserProfiles>(); // Add this to the controller
