@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:matrimony/HomeScreen/controller/home_screen_controller.dart';
 import 'package:matrimony/HomeScreen/view/home_screen_view.dart';
 import 'package:matrimony/themeController.dart';
+import 'First Registration Process/Onboardings/view/onboarding_view.dart';
+import 'First Registration Process/ProfilePage/controller/profile_controller.dart';
 import 'LoginPage/view/loginpage_view.dart';
-import 'Onboardings/view/onboarding_view.dart';
-import 'ProfilePage/controller/profile_controller.dart';
+import 'MatchPage/view/match_page.dart';
 import 'SignUp/view/signup_view.dart';
 import 'SplashScreen/view/splashScreen_view.dart';
 
 void main() {
   runApp(const MyApp());
-  Get.put(ProfileController());
+  //Get.put(ProfileController());
   Get.put(ThemeController());
+  Get.put(HomeController());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +28,16 @@ class MyApp extends StatelessWidget {
       title: 'Matrimony App',
       theme: ThemeData(
         brightness: Brightness.light,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primaryColor: Colors.deepOrange,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.deepOrange,
+          foregroundColor: Colors.white,
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepOrange,
+          brightness: Brightness.light,
+        ),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
@@ -41,10 +53,11 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/splash', page: () => SplashView()),
         GetPage(name: '/onboarding', page: () => OnboardingView()),
+        GetPage(name: '/matches', page: () => MatchesScreen()),
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/signup', page: () => SignupView()),
-        GetPage(name: '/home', page: () => HomeScreen()),
-        GetPage(name: '/forgot_password', page: () => Center(child: Text('data'),)),
+        GetPage(name: '/home', page: () => HomeScreen(userId: Get.find<HomeController>().currentUserId)),
+        GetPage(name: '/forgot_password', page: () => Center(child: Text('data'))),
       ],
     ));
   }

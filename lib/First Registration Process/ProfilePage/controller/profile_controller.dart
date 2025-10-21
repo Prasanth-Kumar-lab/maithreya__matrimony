@@ -1,37 +1,28 @@
-// controllers/profile_controller.dart
-
+// Updated lib/controller/profile_controller.dart
+import 'package:get/get.dart';
 import '../model/profile_model.dart';
-class ProfileController {
-  late ProfileModel profile;
 
-  ProfileController() {
-    // Dummy data for UI demo
+class ProfileController extends GetxController {
+  late ProfileModel profile;
+  var isLoaded = false.obs;
+
+  ProfileController({required String userId, required String userName}) {
     profile = ProfileModel(
-      fullName: "Rohit Sharma",
+      userId: userId,
+      firstName: userName
+          .split(' ')
+          .first,
+      lastName: userName
+          .split(' ')
+          .length > 1 ? userName.split(' ').sublist(1).join(' ') : '',
       gender: "Male",
-      dob: DateTime(1995, 8, 20),
-      religion: "Hindu",
-      caste: "Brahmin",
-      maritalStatus: "Never Married",
-      motherTongue: "Hindi",
-      education: "MBA",
-      profession: "Software Engineer",
-      income: "₹12 LPA",
-      currentCity: "Bangalore",
-      country: "India",
-      nativePlace: "Uttar Pradesh",
-      fatherOccupation: "Businessman",
-      motherOccupation: "Homemaker",
-      brothers: 1,
-      sisters: 0,
-      diet: "Vegetarian",
-      smoking: "No",
-      drinking: "No",
-      hobbies: "Reading, Traveling, Music",
-      partnerAgeRange: "25 - 30",
-      partnerReligion: "Hindu",
-      partnerEducation: "Graduate and above",
-      partnerLocation: "Any metro city in India",
+      dob: '',
+      age: 0,
     );
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
   }
 }

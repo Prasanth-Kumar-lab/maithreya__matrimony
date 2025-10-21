@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:matrimony/constants/constants.dart';
 import '../controller/signup-controller.dart';
+import 'package:intl/intl.dart'; // Add this for date formatting
 
 class SignupView extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class SignupView extends StatelessWidget {
       init: SignupController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Colors.pink[50], // Background color
+          backgroundColor: AppColors.bgThemeColor,
           body: SafeArea(
             child: Column(
               children: [
@@ -27,7 +28,7 @@ class SignupView extends StatelessWidget {
                     fontFamily: 'Poppins',
                     fontSize: 28,
                     fontWeight: FontWeight.w600,
-                    color: Colors.deepPurple,
+                    color: AppColors.textColor,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -36,17 +37,15 @@ class SignupView extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
-                    color: Colors.grey[600],
+                    color: AppColors.textColor,
                   ),
                 ),
                 SizedBox(height: 24),
-
-                // Curved container (scrollable form section)
                 Expanded(
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.loginSignUpTheme,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(32),
                         topRight: Radius.circular(32),
@@ -72,36 +71,33 @@ class SignupView extends StatelessWidget {
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.person, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.person, color: AppColors.textFieldIconColor),
                               ),
                               validator: (value) => value!.isEmpty ? 'Please enter your full name' : null,
                               controller: controller.nameController,
                               textInputAction: TextInputAction.next,
                             ),
                             SizedBox(height: 16),
-
                             TextFormField(
                               decoration: InputDecoration(
-                                labelText: "Email",
+                                labelText: "Username",
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.email, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.person_outline, color: AppColors.textFieldIconColor),
                               ),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) => !value!.contains('@') ? 'Please enter a valid email' : null,
-                              controller: controller.emailController,
+                              validator: (value) => value!.isEmpty ? 'Please enter a username' : null,
+                              controller: controller.usernameController,
                               textInputAction: TextInputAction.next,
                             ),
                             SizedBox(height: 16),
-
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: "Phone",
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.phone, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.phone, color: AppColors.textFieldIconColor),
                               ),
                               keyboardType: TextInputType.phone,
                               validator: (value) => value!.length < 10 ? 'Please enter a valid phone number' : null,
@@ -109,18 +105,17 @@ class SignupView extends StatelessWidget {
                               textInputAction: TextInputAction.next,
                             ),
                             SizedBox(height: 16),
-
                             Obx(() => TextFormField(
                               decoration: InputDecoration(
                                 labelText: "Password",
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.lock, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.lock, color: AppColors.textFieldIconColor),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
-                                    color: Colors.deepPurple,
+                                    color: AppColors.textFieldIconColor,
                                   ),
                                   onPressed: controller.togglePasswordVisibility,
                                 ),
@@ -131,18 +126,17 @@ class SignupView extends StatelessWidget {
                               textInputAction: TextInputAction.next,
                             )),
                             SizedBox(height: 16),
-
                             Obx(() => TextFormField(
                               decoration: InputDecoration(
                                 labelText: "Confirm Password",
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.lock, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.lock, color: AppColors.textFieldIconColor),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     controller.obscureConfirmPassword.value ? Icons.visibility_off : Icons.visibility,
-                                    color: Colors.deepPurple,
+                                    color: AppColors.textFieldIconColor,
                                   ),
                                   onPressed: controller.toggleConfirmPasswordVisibility,
                                 ),
@@ -153,7 +147,19 @@ class SignupView extends StatelessWidget {
                               textInputAction: TextInputAction.next,
                             )),
                             SizedBox(height: 16),
-
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: "Address",
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                filled: true,
+                                fillColor: Colors.grey[100],
+                                prefixIcon: Icon(Icons.location_on, color: AppColors.textFieldIconColor),
+                              ),
+                              validator: (value) => value!.isEmpty ? 'Please enter your address' : null,
+                              controller: controller.addressController,
+                              textInputAction: TextInputAction.next,
+                            ),
+                            SizedBox(height: 16),
                             Obx(() => DropdownButtonFormField<String>(
                               value: controller.gender.value,
                               decoration: InputDecoration(
@@ -161,8 +167,9 @@ class SignupView extends StatelessWidget {
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.person_outline, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.person_outline, color: AppColors.textFieldIconColor),
                               ),
+                              icon: Icon(Icons.filter_list, color: AppColors.textFieldIconColor),
                               items: ['Male', 'Female', 'Other'].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -172,49 +179,78 @@ class SignupView extends StatelessWidget {
                               onChanged: controller.updateGender,
                             )),
                             SizedBox(height: 16),
-
-                            Obx(() => TextFormField(
+                            TextFormField(
+                              controller: controller.dobTextController,
+                              readOnly: true, // Make the field read-only to prevent manual input
                               decoration: InputDecoration(
-                                labelText: "Date of Birth",
+                                labelText: "Date of Birth (DD-MM-YYYY)",
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.calendar_today, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.calendar_today, color: AppColors.textFieldIconColor),
                               ),
-                              readOnly: true,
                               onTap: () async {
-                                DateTime? picked = await showDatePicker(
+                                // Show the date picker when the field is tapped
+                                DateTime? pickedDate = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime.now(),
-                                  builder: (context, child) {
+                                  builder: (BuildContext context, Widget? child) {
                                     return Theme(
                                       data: ThemeData.light().copyWith(
                                         colorScheme: ColorScheme.light(
-                                          primary: Colors.deepPurple,
-                                          onPrimary: Colors.white,
-                                          onSurface: Colors.black,
+                                          primary: Colors.white, // Header background color
+                                          onPrimary: AppColors.textColor, // Header text/icon color
+                                          surface: AppColors.loginSignUpTheme, // Background of the calendar
+                                          onSurface: AppColors.textColor, // Calendar text color
+                                        ),
+                                        dialogBackgroundColor: AppColors.loginSignUpTheme, // Dialog background
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: AppColors.textFieldIconColor, // Button text color
+                                            textStyle: TextStyle(fontFamily: 'Poppins'),
+                                          ),
                                         ),
                                       ),
                                       child: child!,
                                     );
                                   },
                                 );
-                                controller.updateDob(picked);
-                              },
-                              controller: TextEditingController(
-                                text: controller.dob.value?.toString().split(' ')[0] ?? '',
-                              ),
-                            )),
-                            SizedBox(height: 16),
 
+                                if (pickedDate != null) {
+                                  // Format the selected date and update the controller
+                                  String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+                                  controller.dobTextController.text = formattedDate;
+                                }
+                              },
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) return 'Please select your date of birth';
+
+                                final regex = RegExp(r'^\d{2}-\d{2}-\d{4}$');
+                                if (!regex.hasMatch(value)) return 'Use DD-MM-YYYY format';
+
+                                try {
+                                  final parts = value.split('-');
+                                  final day = int.parse(parts[0]);
+                                  final month = int.parse(parts[1]);
+                                  final year = int.parse(parts[2]);
+                                  final dob = DateTime(year, month, day);
+                                  if (dob.isAfter(DateTime.now())) return 'Date cannot be in the future';
+                                } catch (_) {
+                                  return 'Invalid date';
+                                }
+
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 5),
                             Obx(() => Row(
                               children: [
                                 Checkbox(
                                   value: controller.agreeTerms.value,
                                   onChanged: controller.toggleTerms,
-                                  activeColor: Colors.deepPurple,
+                                  activeColor: AppColors.textFieldIconColor,
                                 ),
                                 Flexible(
                                   child: GestureDetector(
@@ -248,8 +284,7 @@ class SignupView extends StatelessWidget {
                               }
                               return SizedBox.shrink();
                             }),
-                            SizedBox(height: 24),
-
+                            SizedBox(height: 15),
                             Obx(() => controller.isLoading.value
                                 ? Center(
                               child: CircularProgressIndicator(
@@ -259,7 +294,7 @@ class SignupView extends StatelessWidget {
                                 : ElevatedButton(
                               onPressed: controller.signup,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: AppColors.buttonColor,
                                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -273,18 +308,17 @@ class SignupView extends StatelessWidget {
                                   Text(
                                     "Sign Up",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.textColor,
                                       fontSize: 18,
                                       fontFamily: 'Poppins',
                                     ),
                                   ),
                                   SizedBox(width: 8),
-                                  Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                                  Icon(Icons.arrow_forward, color: AppColors.textFieldIconColor, size: 18),
                                 ],
                               ),
                             )),
                             SizedBox(height: 16),
-
                             TextButton(
                               onPressed: controller.goToLogin,
                               child: Text(

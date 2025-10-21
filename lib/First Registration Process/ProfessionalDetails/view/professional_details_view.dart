@@ -1,37 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:lottie/lottie.dart';
-import 'package:matrimony/FamilyDetails/view/family_details_view.dart';
+import 'package:matrimony/constants/constants.dart';
+import 'package:matrimony/constants/fade_slide_textfields.dart';
+import '../../FamilyDetails/view/family_details_view.dart';
+import '../../widgets/textfield.dart';
 
 class ProfessionalDetails extends StatelessWidget {
-  const ProfessionalDetails({Key? key}) : super(key: key);
+  final String userId;
+  const ProfessionalDetails({Key? key, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController roleStatusController = TextEditingController();
+    final TextEditingController annualIncomeController = TextEditingController();
     final TextEditingController professionController = TextEditingController();
+    final TextEditingController workingOrganizationController = TextEditingController();
+    final TextEditingController roleController = TextEditingController();
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.pink[50],
+        backgroundColor: AppColors.bgThemeColor,
         body: SafeArea(
+          bottom: false,
           child: Column(
             children: [
               SizedBox(height: 0),
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Background Lottie animation
                   Positioned.fill(
                     child: Lottie.asset(
-                      'assets/Stream of Hearts.json', // Replace with actual path
+                      LottieAssets.registrationLottie,
                       fit: BoxFit.cover,
                       repeat: false,
                     ),
                   ),
-                  // Overlaying the text exactly as before
                   Column(
                     children: [
                       SizedBox(height: 80),
@@ -42,28 +45,28 @@ class ProfessionalDetails extends StatelessWidget {
                           fontFamily: 'Poppins',
                           fontSize: 26,
                           fontWeight: FontWeight.w600,
-                          color: Colors.deepPurple,
+                          color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: 6),
                       Text(
-                        'Let us know you better',
+                        RegistrationTitles.registrationSubTitle,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 16,
-                          color: Colors.grey[600],
+                          color: AppColors.textColor,
                         ),
                       ),
+                      SizedBox(height: 12),
                     ],
                   ),
                 ],
               ),
-              // Curved Container
               Expanded(
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.registrationProcess,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
                       topRight: Radius.circular(32),
@@ -82,90 +85,81 @@ class ProfessionalDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SizedBox(height: 32),
-                        // Date of Birth Field
-                        TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            labelText: 'Annual Income(LPA)',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.0,
+                          child: CustomTextField(
+                            controller: annualIncomeController,
+                            label: 'Annual Income(LPA)',
                           ),
-                          onTap: () {
-                            // No functionality
-                          },
                         ),
                         SizedBox(height: 16),
-                        // Age Field
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          controller: professionController,
-                          decoration: InputDecoration(
-                            labelText: 'Select Profession',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.2,
+                          child: CustomTextField(
+                            label: 'Select Profession',
+                            controller: professionController,
                           ),
                         ),
-                        SizedBox(height: 16,),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Working Organization Name',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        SizedBox(height: 16),
+                        FadeSlideTransition(
+                          delay: 0.4,
+                          child: CustomTextField(
+                            label: 'Working Organization Name',
+                            controller: workingOrganizationController,
                           ),
                         ),
-                        SizedBox(height: 16,),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Role',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        SizedBox(height: 16),
+                        FadeSlideTransition(
+                          delay: 0.6,
+                          child: CustomTextField(
+                            label: 'Role',
+                            controller: roleController,
                           ),
                         ),
                         SizedBox(height: 32),
-                        // Continue Button
-                        ElevatedButton(
-                          onPressed: () {
-                            Get.to(()=>FamilyDetails());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            elevation: 5,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Continue",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
+                        FadeSlideTransition(
+                          delay: 0.8,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (annualIncomeController.text.isEmpty ||
+                                  professionController.text.isEmpty ||
+                                  workingOrganizationController.text.isEmpty ||
+                                  roleController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Please fill all fields')),
+                                );
+                                return;
+                              }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => FamilyDetails(userId: userId,)),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.buttonColor,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_forward, color: Colors.white),
-                            ],
+                              elevation: 2,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Continue",
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    color: AppColors.textColor,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(Icons.arrow_forward, color: AppColors.textFieldIconColor),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),

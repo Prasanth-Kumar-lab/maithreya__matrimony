@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:lottie/lottie.dart';
-import 'package:matrimony/AboutYourSelf/view/about_your_self_view.dart';
+import 'package:matrimony/constants/constants.dart';
+import 'package:matrimony/constants/fade_slide_textfields.dart';
+import '../../AboutYourSelf/view/about_your_self_view.dart';
+import '../../widgets/textfield.dart';
 
 class LifeStyleDetails extends StatelessWidget {
-  const LifeStyleDetails({Key? key}) : super(key: key);
+  final String userId;
+  const LifeStyleDetails({Key? key, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController hobbiesController = TextEditingController();
     final TextEditingController moviesController = TextEditingController();
     final TextEditingController booksController = TextEditingController();
-    final TextEditingController intrestsController = TextEditingController();
+    final TextEditingController interestsController = TextEditingController();
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.pink[50],
+        backgroundColor: AppColors.bgThemeColor,
         body: SafeArea(
+          bottom: false,
           child: Column(
             children: [
               SizedBox(height: 0),
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Background Lottie animation
                   Positioned.fill(
                     child: Lottie.asset(
-                      'assets/Stream of Hearts.json', // Replace with actual path
+                      LottieAssets.registrationLottie,
                       fit: BoxFit.cover,
                       repeat: false,
                     ),
                   ),
-                  // Overlaying the text exactly as before
                   Column(
                     children: [
                       SizedBox(height: 80),
@@ -44,29 +45,29 @@ class LifeStyleDetails extends StatelessWidget {
                           fontFamily: 'Poppins',
                           fontSize: 26,
                           fontWeight: FontWeight.w600,
-                          color: Colors.deepPurple,
+                          color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: 6),
                       Text(
-                        'Let us know you better',
+                        RegistrationTitles.registrationSubTitle,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 16,
-                          color: Colors.grey[600],
+                          color: AppColors.textColor,
                         ),
                       ),
+                      SizedBox(height: 12),
                     ],
                   ),
                 ],
               ),
-              // Curved Container
               Expanded(
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.registrationProcess,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
                       topRight: Radius.circular(32),
@@ -85,93 +86,81 @@ class LifeStyleDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SizedBox(height: 32),
-                        // Date of Birth Field
-                        TextField(
-                          readOnly: true,
-                          controller: hobbiesController,
-                          decoration: InputDecoration(
-                            labelText: 'Mother name',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.0,
+                          child: CustomTextField(
+                            label: 'Hobbies',
+                            controller: hobbiesController,
                           ),
-                          onTap: () {
-                            // No functionality
-                          },
                         ),
                         SizedBox(height: 16),
-                        // Age Field
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          controller: moviesController,
-                          decoration: InputDecoration(
-                            labelText: 'Father name',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.2,
+                          child: CustomTextField(
+                            label: 'Favourite Movies',
+                            controller: moviesController,
                           ),
                         ),
-                        SizedBox(height: 16,),
-                        TextField(
-                          controller: booksController,
-                          decoration: InputDecoration(
-                            labelText: 'Gothram',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        SizedBox(height: 16),
+                        FadeSlideTransition(
+                          delay: 0.4,
+                          child: CustomTextField(
+                            label: 'Favourite Books',
+                            controller: booksController,
                           ),
                         ),
-                        SizedBox(height: 16,),
-                        TextField(
-                          controller: intrestsController,
-                          decoration: InputDecoration(
-                            labelText: 'Nakshatram',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        SizedBox(height: 16),
+                        FadeSlideTransition(
+                          delay: 0.6,
+                          child: CustomTextField(
+                            label: 'Other Interests',
+                            controller: interestsController,
                           ),
                         ),
                         SizedBox(height: 32),
-                        // Continue Button
-                        ElevatedButton(
-                          onPressed: () {
-                            Get.to(()=>AboutYourSelf());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            elevation: 5,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Continue",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
+                        FadeSlideTransition(
+                          delay: 0.8,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (hobbiesController.text.isEmpty ||
+                                  moviesController.text.isEmpty ||
+                                  booksController.text.isEmpty ||
+                                  interestsController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Please fill all fields')),
+                                );
+                                return;
+                              }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AboutYourSelf(userId: userId,)),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.buttonColor,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_forward, color: Colors.white),
-                            ],
+                              elevation: 5,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Continue",
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    color: AppColors.textColor,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(Icons.arrow_forward, color: AppColors.textFieldIconColor),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),

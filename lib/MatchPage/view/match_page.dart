@@ -1,169 +1,231 @@
 import 'package:flutter/material.dart';
-import '../../First Registration Process/ProfilePage/model/profile_model.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
 import '../../OpponentProfileScreen/view/profile_view.dart';
-import '../controller/match_controller.dart';
+import '../../constants/constants.dart';
 
 class MatchesScreen extends StatelessWidget {
-  const MatchesScreen({super.key});
+  MatchesScreen({super.key});
+
+  // List of image paths
+  final List<String> profileImages = [
+    'assets/anushka.jpg',
+    'assets/kajal.jpg',
+    'assets/Rashmika.jpg',
+    'assets/srileela.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final controller = MatchesController();
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        flexibleSpace: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.notifications, size: 24),
+      backgroundColor: AppColors.bgThemeColor,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          children: [
+            // Custom header with back arrow and title
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, bottom: 24),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.textFieldIconColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 20,
+                        color: AppColors.iconColor,
+                      ),
+                    ),
                   ),
-                ),
-                const Text(
-                  "Matches",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 48),
-              ],
+                  const SizedBox(width: 16),
+                  Text(
+                    'Matches',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
+            // Liked Profiles Section
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                "Liked Profiles:",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5,
+                ),
+              ),
+            ).animate(onPlay: (controller) => controller.repeat()).shimmer(
+              duration: 2000.ms,
+              color: AppColors.textAnimateColor
+            ),
+            const SizedBox(height: 5),
+            _buildProfileList(context, size),
+
+            const SizedBox(height: 2),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                "My Profile Liked Profiles",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5,
+                ),
+              ),
+            ).animate(onPlay: (controller) => controller.repeat()).shimmer(
+              duration: 2000.ms,
+              color: AppColors.textAnimateColor
+            ),
+            const SizedBox(height: 5),
+            _buildProfileList(context, size),
+
+            // Shortlisted Profiles
+            const SizedBox(height: 2),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                "Shortlisted Profiles",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5,
+                ),
+              ),
+            ).animate(onPlay: (controller) => controller.repeat()).shimmer(
+              duration: 2000.milliseconds,
+              color: AppColors.textAnimateColor
+            ),
+            const SizedBox(height: 5),
+            _buildProfileList(context, size),
+          ],
         ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        children: [
-          _buildSection(
-            title: "Liked Profiles",
-            profiles: controller.likedProfiles,
-            size: size,
-            context: context,
-          ),
-          _buildSection(
-            title: "My Profile Liked Profiles",
-            profiles: controller.myProfileLikedProfiles,
-            size: size,
-            context: context,
-          ),
-          _buildSection(
-            title: "Shortlisted Profiles",
-            profiles: controller.shortlistedProfiles,
-            size: size,
-            context: context,
-          ),
-        ],
       ),
     );
   }
 
-  Widget _buildSection({
-    required String title,
-    required List<ProfileModel> profiles,
-    required Size size,
-    required BuildContext context,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 16),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            height: 1.5,
-          ),
-        ),
-        const Text(
-          "Matches",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 16),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: profiles.map((profile) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 15.0),
+  // Reusable profile list builder with staggered animation
+  Widget _buildProfileList(BuildContext context, Size size) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: AnimationLimiter(
+        child: Row(
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 600),
+            delay: const Duration(milliseconds: 150),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              horizontalOffset: 50.0,
+              child: FadeInAnimation(
+                child: ScaleAnimation(
+                  scale: 0.9,
+                  child: widget,
+                ),
+              ),
+            ),
+            children: List.generate(
+              profileImages.length,
+                  (index) => Padding(
+                padding: const EdgeInsets.only(right: 5.0),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProfileViewScreen(),
+                        builder: (context) => ProfileViewScreen(),
                       ),
                     );
                   },
                   child: Container(
                     width: (size.width - 55) / 2,
+                    height: 200, // Fixed height, adjust as needed
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.grey[200],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10),
-                            ),
-                            color: Colors.grey[400],
-                            image: profile.imageUrl.isNotEmpty
-                                ? DecorationImage(
-                              image: NetworkImage(profile.imageUrl),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Stack(
+                        children: [
+                          // Image aligned to top
+                          Positioned.fill(
+                            child: Image.asset(
+                              profileImages[index % profileImages.length],
                               fit: BoxFit.cover,
-                            )
-                                : null,
+                              alignment: Alignment.topCenter, // Align image to top
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                profile.name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                          // Text overlay with blue opacity at bottom
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.blueAccent.withOpacity(0.9),
+                                    Colors.black.withOpacity(0.3),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                profile.ageLocation,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Name",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white, // White text for contrast
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    "Age, Location",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white70, // Slightly transparent white
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              );
-            }).toList(),
+              ),
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

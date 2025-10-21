@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:matrimony/constants/constants.dart';
 import '../controller/loginpage_controller.dart';
 
 class LoginView extends StatelessWidget {
@@ -10,8 +11,10 @@ class LoginView extends StatelessWidget {
       init: LoginController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Colors.pink[50], // Background color
+          backgroundColor: AppColors.bgThemeColor, // Background color
           body: SafeArea(
+            bottom: false,
+            top: true,
             child: Column(
               children: [
                 SizedBox(height: 40),
@@ -27,7 +30,7 @@ class LoginView extends StatelessWidget {
                     fontFamily: 'Poppins',
                     fontSize: 28,
                     fontWeight: FontWeight.w600,
-                    color: Colors.deepPurple,
+                    color: AppColors.textColor,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -36,7 +39,7 @@ class LoginView extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
-                    color: Colors.grey[600],
+                    color: AppColors.textColor,
                   ),
                 ),
                 SizedBox(height: 24),
@@ -46,7 +49,7 @@ class LoginView extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.loginSignUpTheme,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(32),
                         topRight: Radius.circular(32),
@@ -69,12 +72,13 @@ class LoginView extends StatelessWidget {
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: "Email or Phone",
+                                labelStyle: TextStyle(color: AppColors.textColor),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.email, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.email, color: AppColors.textFieldIconColor),
                               ),
                               validator: (value) => value!.isEmpty ? 'Please enter email or phone' : null,
                               controller: controller.emailOrPhoneController,
@@ -85,18 +89,19 @@ class LoginView extends StatelessWidget {
                             Obx(() => TextFormField(
                               decoration: InputDecoration(
                                 labelText: "Password",
+                                labelStyle: TextStyle(color: AppColors.textColor),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 filled: true,
                                 fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.lock, color: Colors.deepPurple),
+                                prefixIcon: Icon(Icons.lock, color: AppColors.textFieldIconColor),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     controller.obscurePassword.value
                                         ? Icons.visibility_off
                                         : Icons.visibility,
-                                    color: Colors.deepPurple,
+                                    color: AppColors.textFieldIconColor,
                                   ),
                                   onPressed: controller.togglePasswordVisibility,
                                 ),
@@ -132,12 +137,12 @@ class LoginView extends StatelessWidget {
                                 : ElevatedButton(
                               onPressed: controller.login,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: AppColors.buttonColor.shade400,
                                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
-                                elevation: 5,
+                                elevation: 2,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -146,13 +151,13 @@ class LoginView extends StatelessWidget {
                                   Text(
                                     "Login",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.textColor,
                                       fontSize: 18,
                                       fontFamily: 'Poppins',
                                     ),
                                   ),
                                   SizedBox(width: 8),
-                                  Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                                  Icon(Icons.arrow_forward, color: AppColors.textFieldIconColor, size: 18),
                                 ],
                               ),
                             )),
@@ -164,7 +169,7 @@ class LoginView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 14,
-                                  color: Colors.deepPurple,
+                                  color: AppColors.forgotPassword,
                                 ),
                               ),
                             ),
@@ -175,7 +180,7 @@ class LoginView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 14,
-                                  color: Colors.deepPurple,
+                                  color: AppColors.forgotPassword,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

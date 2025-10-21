@@ -1,68 +1,66 @@
-// models/profile_model.dart
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class ProfileModel {
-  // Personal Info
-  final String fullName;
-  final String gender;
-  final DateTime dob;
-  final String religion;
-  final String caste;
-  final String maritalStatus;
-  final String motherTongue;
-
-  // Education & Career
-  final String education;
-  final String profession;
-  final String income;
-
-  // Location
-  final String currentCity;
-  final String country;
-  final String nativePlace;
-
-  // Family
-  final String fatherOccupation;
-  final String motherOccupation;
-  final int brothers;
-  final int sisters;
-
-  // Lifestyle
-  final String diet;
-  final String smoking;
-  final String drinking;
-  final String hobbies;
-
-  // Partner Preferences
-  final String partnerAgeRange;
-  final String partnerReligion;
-  final String partnerEducation;
-  final String partnerLocation;
+  String userId;
+  String? firstName;
+  String? lastName;
+  String? dob;
+  String? gender;
+  int? age;
+  String? profileImage;
+  String? nativePlace;
+  String? state;
+  String? city;
+  String? maritalStatus;
+  String? height;
+  String? educationalDetails;
+  String? vegNonVeg;
+  String? annualIncome;
+  String? profession;
+  String? workingOrganization;
+  String? role;
+  String? motherName;
+  String? fatherName;
+  String? birthTime;
+  int? noOfSisters;
+  int? noOfBrothers;
+  String? hobbies;
+  String? favouriteMovies;
+  String? favouriteBooks;
+  String? otherInterests;
+  String? aboutYourself;
 
   ProfileModel({
-    required this.fullName,
-    required this.gender,
-    required this.dob,
-    required this.religion,
-    required this.caste,
-    required this.maritalStatus,
-    required this.motherTongue,
-    required this.education,
-    required this.profession,
-    required this.income,
-    required this.currentCity,
-    required this.country,
-    required this.nativePlace,
-    required this.fatherOccupation,
-    required this.motherOccupation,
-    required this.brothers,
-    required this.sisters,
-    required this.diet,
-    required this.smoking,
-    required this.drinking,
-    required this.hobbies,
-    required this.partnerAgeRange,
-    required this.partnerReligion,
-    required this.partnerEducation,
-    required this.partnerLocation,
+    required this.userId,
+    this.firstName,
+    this.lastName,
+    this.dob,
+    this.gender,
+    this.age,
+    this.profileImage,
+    this.nativePlace,
+    this.state,
+    this.city,
+    this.maritalStatus,
+    this.height,
+    this.educationalDetails,
+    this.vegNonVeg,
+    this.annualIncome,
+    this.profession,
+    this.workingOrganization,
+    this.role,
+    this.motherName,
+    this.fatherName,
+    this.birthTime,
+    this.noOfSisters,
+    this.noOfBrothers,
+    this.hobbies,
+    this.favouriteMovies,
+    this.favouriteBooks,
+    this.otherInterests,
+    this.aboutYourself,
   });
 }
+

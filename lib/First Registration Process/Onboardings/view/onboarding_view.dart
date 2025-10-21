@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:matrimony/constants/constants.dart';
 import '../controller/onbordind_controller.dart';
 
 class OnboardingView extends StatelessWidget {
@@ -12,8 +13,10 @@ class OnboardingView extends StatelessWidget {
         final model = controller.model;
 
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.bgThemeColor,
           body: SafeArea(
+            top: true,
+            bottom: false,
             child: Column(
               children: [
                 // Lottie Animation (Top Half)
@@ -51,7 +54,7 @@ class OnboardingView extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: controller.currentPage.value == index
                               ? Colors.deepPurple
-                              : Colors.grey[400],
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -67,7 +70,7 @@ class OnboardingView extends StatelessWidget {
                     curve: Curves.easeInOut,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: AppColors.onboardingContainers,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(32),
                         topRight: Radius.circular(32),
@@ -78,14 +81,14 @@ class OnboardingView extends StatelessWidget {
                           width: 3,
                         ),
                       ),
-                      boxShadow: [
+                      /*boxShadow: [
                         BoxShadow(
-                          color: Colors.orange.withOpacity(0.3),
+                          color: AppColors.buttonColor.withOpacity(0.3),
                           blurRadius: 12,
                           spreadRadius: 10,
                           offset: Offset(0, -5),
                         ),
-                      ],
+                      ],*/
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28),
@@ -102,7 +105,7 @@ class OnboardingView extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.deepPurple,
+                                    color: AppColors.textColor
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -111,7 +114,7 @@ class OnboardingView extends StatelessWidget {
                                   slide['subtext']!,
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.grey[700],
+                                    color: AppColors.textColor,
                                     height: 1.4,
                                   ),
                                   textAlign: TextAlign.center,
@@ -127,22 +130,22 @@ class OnboardingView extends StatelessWidget {
                               // Back Arrow inside CircleAvatar
                               CircleAvatar(
                                 radius: 24,
-                                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                                backgroundColor: Colors.black.withOpacity(0.1),
                                 child: IconButton(
                                   icon: Icon(Icons.arrow_back_ios_new_rounded),
                                   onPressed: controller.previousPage,
-                                  color: Colors.deepPurple,
+                                  color: AppColors.textFieldIconColor
                                 ),
                               ),
 
                               // Get Started as IconButton with icon + text (not inside CircleAvatar)
                               TextButton.icon(
                                 onPressed: controller.onGetStartedPressed,
-                                icon: Icon(Icons.check_circle_outline, color: Colors.deepPurple),
+                                icon: Icon(Icons.check_circle_outline, color: AppColors.textFieldIconColor),
                                 label: Text(
                                   "Get Started",
                                   style: TextStyle(
-                                    color: Colors.deepPurple,
+                                    color: AppColors.textColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -151,18 +154,18 @@ class OnboardingView extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
-                                  backgroundColor: Colors.orange.withOpacity(0.3),
+                                  backgroundColor: AppColors.buttonColor,
                                 ),
                               ),
 
                               // Forward Arrow inside CircleAvatar
                               CircleAvatar(
                                 radius: 24,
-                                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                                backgroundColor: Colors.black.withOpacity(0.1),
                                 child: IconButton(
                                   icon: Icon(Icons.arrow_forward_ios_rounded),
                                   onPressed: controller.nextPage,
-                                  color: Colors.deepPurple,
+                                  color: AppColors.textFieldIconColor
                                 ),
                               ),
                             ],

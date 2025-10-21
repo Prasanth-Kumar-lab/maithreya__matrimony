@@ -12,9 +12,13 @@ class AppColors{
   static final onboardingContainers = Colors.indigo.shade100;
   static final loginSignUpTheme = Colors.indigo.shade100;
   static final registrationProcess = Colors.indigo.shade100;
+  static const buttonIconColor = Colors.black;
 }
 
 class LottieAssets {
   static const registrationLottie = 'assets/Stream of Hearts.json';
+}
+class RegistrationTitles{
+  static const registrationSubTitle = 'Let us know you better';
 }
 

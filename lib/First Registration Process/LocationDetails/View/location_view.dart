@@ -1,35 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:matrimony/MaritalDetails/view/marital_details_view.dart';
+import 'package:matrimony/constants/constants.dart';
+import 'package:matrimony/constants/fade_slide_textfields.dart';
+import '../../MaritalDetails/view/marital_details_view.dart';
+import '../../widgets/textfield.dart';
+
 class LocationDetails extends StatelessWidget {
-  const LocationDetails({Key? key}) : super(key: key);
+  final String userId;
+
+  const LocationDetails({Key? key, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nativePlaceController = TextEditingController();
     final TextEditingController stateController = TextEditingController();
     final TextEditingController cityController = TextEditingController();
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.pink[50],
+        backgroundColor: AppColors.bgThemeColor,
         body: SafeArea(
+          bottom: false,
           child: Column(
             children: [
               SizedBox(height: 10),
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Background Lottie animation
                   Positioned.fill(
                     child: Lottie.asset(
-                      'assets/Stream of Hearts.json', // Replace with actual path
+                      LottieAssets.registrationLottie,
                       fit: BoxFit.cover,
                       repeat: false,
                     ),
                   ),
-                  // Overlaying the text exactly as before
                   Column(
                     children: [
                       SizedBox(height: 80),
@@ -40,29 +45,28 @@ class LocationDetails extends StatelessWidget {
                           fontFamily: 'Poppins',
                           fontSize: 26,
                           fontWeight: FontWeight.w600,
-                          color: Colors.deepPurple,
+                          color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: 6),
                       Text(
-                        'Let us know you better',
+                        RegistrationTitles.registrationSubTitle,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 16,
-                          color: Colors.grey[600],
+                          color: AppColors.textColor,
                         ),
                       ),
+                      SizedBox(height: 12),
                     ],
                   ),
                 ],
               ),
-
-              // Curved Container
               Expanded(
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.registrationProcess,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
                       topRight: Radius.circular(32),
@@ -80,84 +84,73 @@ class LocationDetails extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Profile Picture
                         SizedBox(height: 32),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Select address',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.0,
+                          child: CustomTextField(
+                            label: 'Native Place',
+                            controller: nativePlaceController,
                           ),
                         ),
                         SizedBox(height: 16),
-
-                        // Date of Birth Field
-                        TextField(
-                          readOnly: true,
-                          controller: stateController,
-                          decoration: InputDecoration(
-                            labelText: 'State',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.2,
+                          child: CustomTextField(
+                            label: 'State Name',
+                            controller: stateController,
                           ),
-                          onTap: () {
-                            // No functionality
-                          },
                         ),
                         SizedBox(height: 16),
-
-                        // Age Field
-                        TextField(
-                          controller: cityController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            labelText: 'City',
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
+                        FadeSlideTransition(
+                          delay: 0.4,
+                          child: CustomTextField(
+                            label: 'City Name',
+                            controller: cityController,
                           ),
                         ),
                         SizedBox(height: 32),
+                        FadeSlideTransition(
+                          delay: 0.6,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (nativePlaceController.text.isEmpty ||
+                                  stateController.text.isEmpty ||
+                                  cityController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Please fill all fields')),
+                                );
+                                return;
+                              }
 
-                        // Continue Button
-                        ElevatedButton(
-                          onPressed: () {
-                            Get.to(()=>MaritalDetails());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            elevation: 5,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Continue",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MaritalDetails(userId: userId,)),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.buttonColor,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_forward, color: Colors.white),
-                            ],
+                              elevation: 2,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Continue",
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    color: AppColors.textColor,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(Icons.arrow_forward, color: AppColors.textFieldIconColor),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
