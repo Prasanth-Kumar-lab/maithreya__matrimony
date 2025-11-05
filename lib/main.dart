@@ -1,20 +1,31 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:matrimony/HomeScreen/controller/home_screen_controller.dart';
 import 'package:matrimony/HomeScreen/view/home_screen_view.dart';
+import 'package:matrimony/firebase_options.dart';
 import 'package:matrimony/themeController.dart';
-import 'First Registration Process/Onboardings/view/onboarding_view.dart';
-import 'First Registration Process/ProfilePage/controller/profile_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'LoginPage/view/loginpage_view.dart';
-import 'MatchPage/view/match_page.dart';
 import 'SignUp/view/signup_view.dart';
 import 'SplashScreen/view/splashScreen_view.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.phone.request();
+  await Permission.location.request();
+  await Permission.sms.request();
+  await Permission.camera.request();
+  await Permission.photos.request();
+  await Permission.notification.request();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
   //Get.put(ProfileController());
   Get.put(ThemeController());
-  Get.put(HomeController());
+  //Get.put(HomeController());
 }
 
 class MyApp extends StatelessWidget {
@@ -52,8 +63,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/splash',
       getPages: [
         GetPage(name: '/splash', page: () => SplashView()),
-        GetPage(name: '/onboarding', page: () => OnboardingView()),
-        GetPage(name: '/matches', page: () => MatchesScreen()),
+        //GetPage(name: '/onboarding', page: () => OnboardingView()),
+        //GetPage(name: '/matches', page: () => MatchesScreen()),
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/signup', page: () => SignupView()),
         GetPage(name: '/home', page: () => HomeScreen(userId: Get.find<HomeController>().currentUserId)),

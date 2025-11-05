@@ -50,12 +50,12 @@ class SignupView extends StatelessWidget {
                         topLeft: Radius.circular(32),
                         topRight: Radius.circular(32),
                       ),
+                      border: Border.all(
+                        color: AppColors.animatedContainer,
+                        width: 1, // <-- Adjust thickness as needed
+                      ),
                       boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 10,
-                          offset: Offset(0, -4),
-                        ),
+                        AppColors.boxShadow
                       ],
                     ),
                     child: SingleChildScrollView(
@@ -146,104 +146,6 @@ class SignupView extends StatelessWidget {
                               controller: controller.confirmPasswordController,
                               textInputAction: TextInputAction.next,
                             )),
-                            SizedBox(height: 16),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: "Address",
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                filled: true,
-                                fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.location_on, color: AppColors.textFieldIconColor),
-                              ),
-                              validator: (value) => value!.isEmpty ? 'Please enter your address' : null,
-                              controller: controller.addressController,
-                              textInputAction: TextInputAction.next,
-                            ),
-                            SizedBox(height: 16),
-                            Obx(() => DropdownButtonFormField<String>(
-                              value: controller.gender.value,
-                              decoration: InputDecoration(
-                                labelText: "Gender",
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                filled: true,
-                                fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.person_outline, color: AppColors.textFieldIconColor),
-                              ),
-                              icon: Icon(Icons.filter_list, color: AppColors.textFieldIconColor),
-                              items: ['Male', 'Female', 'Other'].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value, style: TextStyle(fontFamily: 'Poppins')),
-                                );
-                              }).toList(),
-                              onChanged: controller.updateGender,
-                            )),
-                            SizedBox(height: 16),
-                            TextFormField(
-                              controller: controller.dobTextController,
-                              readOnly: true, // Make the field read-only to prevent manual input
-                              decoration: InputDecoration(
-                                labelText: "Date of Birth (DD-MM-YYYY)",
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                filled: true,
-                                fillColor: Colors.grey[100],
-                                prefixIcon: Icon(Icons.calendar_today, color: AppColors.textFieldIconColor),
-                              ),
-                              onTap: () async {
-                                // Show the date picker when the field is tapped
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime.now(),
-                                  builder: (BuildContext context, Widget? child) {
-                                    return Theme(
-                                      data: ThemeData.light().copyWith(
-                                        colorScheme: ColorScheme.light(
-                                          primary: Colors.white, // Header background color
-                                          onPrimary: AppColors.textColor, // Header text/icon color
-                                          surface: AppColors.loginSignUpTheme, // Background of the calendar
-                                          onSurface: AppColors.textColor, // Calendar text color
-                                        ),
-                                        dialogBackgroundColor: AppColors.loginSignUpTheme, // Dialog background
-                                        textButtonTheme: TextButtonThemeData(
-                                          style: TextButton.styleFrom(
-                                            foregroundColor: AppColors.textFieldIconColor, // Button text color
-                                            textStyle: TextStyle(fontFamily: 'Poppins'),
-                                          ),
-                                        ),
-                                      ),
-                                      child: child!,
-                                    );
-                                  },
-                                );
-
-                                if (pickedDate != null) {
-                                  // Format the selected date and update the controller
-                                  String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
-                                  controller.dobTextController.text = formattedDate;
-                                }
-                              },
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) return 'Please select your date of birth';
-
-                                final regex = RegExp(r'^\d{2}-\d{2}-\d{4}$');
-                                if (!regex.hasMatch(value)) return 'Use DD-MM-YYYY format';
-
-                                try {
-                                  final parts = value.split('-');
-                                  final day = int.parse(parts[0]);
-                                  final month = int.parse(parts[1]);
-                                  final year = int.parse(parts[2]);
-                                  final dob = DateTime(year, month, day);
-                                  if (dob.isAfter(DateTime.now())) return 'Date cannot be in the future';
-                                } catch (_) {
-                                  return 'Invalid date';
-                                }
-
-                                return null;
-                              },
-                            ),
                             SizedBox(height: 5),
                             Obx(() => Row(
                               children: [

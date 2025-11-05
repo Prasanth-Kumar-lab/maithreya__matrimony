@@ -1,8 +1,9 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:matrimony/constants/constants.dart';
-import '../controller/onbordind_controller.dart';
+import '../controller/onbording_controller.dart';
 
 class OnboardingView extends StatelessWidget {
   @override
@@ -16,7 +17,7 @@ class OnboardingView extends StatelessWidget {
           backgroundColor: AppColors.bgThemeColor,
           body: SafeArea(
             top: true,
-            bottom: false,
+            bottom: true,
             child: Column(
               children: [
                 // Lottie Animation (Top Half)
@@ -77,18 +78,13 @@ class OnboardingView extends StatelessWidget {
                       ),
                       border: Border(
                         top: BorderSide(
-                          color: Colors.orange,
-                          width: 3,
+                          color: AppColors.animatedContainer,
+                          width: 5,
                         ),
                       ),
-                      /*boxShadow: [
-                        BoxShadow(
-                          color: AppColors.buttonColor.withOpacity(0.3),
-                          blurRadius: 12,
-                          spreadRadius: 10,
-                          offset: Offset(0, -5),
-                        ),
-                      ],*/
+                      boxShadow: [
+                        AppColors.boxShadow
+                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28),
@@ -104,7 +100,7 @@ class OnboardingView extends StatelessWidget {
                                   slide['headline']!,
                                   style: TextStyle(
                                     fontSize: 24,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: AppColors.fontWeight,
                                     color: AppColors.textColor
                                   ),
                                   textAlign: TextAlign.center,
@@ -116,59 +112,61 @@ class OnboardingView extends StatelessWidget {
                                     fontSize: 16,
                                     color: AppColors.textColor,
                                     height: 1.4,
+                                    fontWeight: AppColors.fontWeight
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
                             );
                           }),
-
                           // Buttons
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Back Arrow inside CircleAvatar
-                              CircleAvatar(
-                                radius: 24,
-                                backgroundColor: Colors.black.withOpacity(0.1),
-                                child: IconButton(
-                                  icon: Icon(Icons.arrow_back_ios_new_rounded),
-                                  onPressed: controller.previousPage,
-                                  color: AppColors.textFieldIconColor
-                                ),
-                              ),
-
-                              // Get Started as IconButton with icon + text (not inside CircleAvatar)
-                              TextButton.icon(
-                                onPressed: controller.onGetStartedPressed,
-                                icon: Icon(Icons.check_circle_outline, color: AppColors.textFieldIconColor),
-                                label: Text(
-                                  "Get Started",
-                                  style: TextStyle(
-                                    color: AppColors.textColor,
-                                    fontWeight: FontWeight.bold,
+                          SafeArea(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Back Arrow inside CircleAvatar
+                                CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: AppColors.onboardingCircleAvatars.withOpacity(0.1),
+                                  child: IconButton(
+                                    icon: Icon(Icons.arrow_back_ios_new_rounded),
+                                    onPressed: controller.previousPage,
+                                    color: AppColors.textFieldIconColor
                                   ),
                                 ),
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  backgroundColor: AppColors.buttonColor,
-                                ),
-                              ),
 
-                              // Forward Arrow inside CircleAvatar
-                              CircleAvatar(
-                                radius: 24,
-                                backgroundColor: Colors.black.withOpacity(0.1),
-                                child: IconButton(
-                                  icon: Icon(Icons.arrow_forward_ios_rounded),
-                                  onPressed: controller.nextPage,
-                                  color: AppColors.textFieldIconColor
+                                // Get Started as IconButton with icon + text (not inside CircleAvatar)
+                                TextButton.icon(
+                                  onPressed: controller.onGetStartedPressed,
+                                  icon: Icon(Icons.check_circle_outline, color: AppColors.textFieldIconColor),
+                                  label: Text(
+                                    "Get Started",
+                                    style: TextStyle(
+                                      color: AppColors.textColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    backgroundColor: AppColors.buttonColor,
+                                  ),
                                 ),
-                              ),
-                            ],
+
+                                // Forward Arrow inside CircleAvatar
+                                CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: AppColors.onboardingCircleAvatars.withOpacity(0.1),
+                                  child: IconButton(
+                                    icon: Icon(Icons.arrow_forward_ios_rounded),
+                                    onPressed: controller.nextPage,
+                                    color: AppColors.textFieldIconColor
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -182,4 +180,4 @@ class OnboardingView extends StatelessWidget {
       },
     );
   }
-}
+}*/

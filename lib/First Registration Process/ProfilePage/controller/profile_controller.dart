@@ -12,9 +12,6 @@ class ProfileController extends GetxController {
       firstName: userName
           .split(' ')
           .first,
-      lastName: userName
-          .split(' ')
-          .length > 1 ? userName.split(' ').sublist(1).join(' ') : '',
       gender: "Male",
       dob: '',
       age: 0,

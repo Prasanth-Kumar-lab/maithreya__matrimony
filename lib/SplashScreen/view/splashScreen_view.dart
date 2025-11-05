@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../controller/splashScreen_controller.dart';
-
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
 
@@ -35,7 +33,7 @@ class SplashView extends StatelessWidget {
                   Obx(
                         () => AnimatedOpacity(
                       opacity: controller.opacity.value,
-                      duration: const Duration(milliseconds: 1500),
+                      duration: Duration(milliseconds: 1500),
                       curve: Curves.easeInOut,
                       child: Lottie.asset(
                         model.logoPath,
@@ -72,18 +70,12 @@ class SplashView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   Obx(
                         () => AnimatedOpacity(
                       opacity: controller.opacity.value,
-                      duration: const Duration(milliseconds: 1500),
+                      duration: Duration(milliseconds: 1500),
                       curve: Curves.easeInOut,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.deepPurple.shade600,
-                        ),
-                        strokeWidth: 3.0,
-                      ),
                     ),
                   ),
                 ],
