@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -8,6 +9,7 @@ import '../../UserProfile/model/userProfile_model.dart';
 import '../../UserProfile/view/UsersProfile.dart';
 import '../../apiEndPoint.dart';
 import '../model/matches_page.dart';
+
 class MatchesController extends GetxController {
   final String currentUserId;
   MatchesController(this.currentUserId);
@@ -15,16 +17,33 @@ class MatchesController extends GetxController {
   var errorMessage = ''.obs;
   var likedProfiles = <dynamic>[].obs;
   var likedMeProfiles = <dynamic>[].obs;
+  var callHistory = <dynamic>[].obs;
   var cardLoadingStates = <String, bool>{}.obs;
+
   @override
   void onInit() {
     super.onInit();
     fetchLikedProfiles();
+    fetchCallHistory();
   }
+  Future<void> refreshMatches() async {
+    try {
+      isLoading(true); // Optional: show loading spinner at the top
+      await Future.wait([
+        fetchLikedProfiles(),
+        fetchCallHistory(),
+      ]);
+    } catch (e) {
+      //errorMessage('Failed to refresh matches: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> deleteLikedUser({
     required String currentUserId,
     required String profileId,
-    required String type,                            // 'liked' or 'liked_me'
+    required String type, // 'liked' or 'liked_me'
     required BuildContext context,
   }) async {
     final url = Uri.parse(ApiEndPoint.wishlistApi);
@@ -35,7 +54,7 @@ class MatchesController extends GetxController {
         body: {
           'user_id': currentUserId,
           'profile_id': profileId,
-          'type': type,                        // will be 'liked' or 'liked_me'
+          'type': type, // will be 'liked' or 'liked_me'
         },
       );
 
@@ -51,12 +70,6 @@ class MatchesController extends GetxController {
             likedMeProfiles.removeWhere((p) => p['id'].toString() == profileId);
           }
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Profile removed from $type list."),
-              backgroundColor: Colors.green,
-            ),
-          );
         } else {
           throw Exception(data['message'] ?? 'Failed to delete profile.');
         }
@@ -97,11 +110,32 @@ class MatchesController extends GetxController {
       likedProfiles.assignAll(liked.data);
       likedMeProfiles.assignAll(likedMe.data);
     } catch (e) {
-      errorMessage('Error fetching matches: $e');
+      //errorMessage('Error fetching matches: $e');
     } finally {
       isLoading(false);
     }
   }
+
+  Future<void> fetchCallHistory() async {
+    try {
+      final response = await http.post(
+        Uri.parse(ApiEndPoint.callHistoryEndPoint),
+        body: {'user_id': currentUserId},
+      );
+
+      if (response.statusCode == 200) {
+        print('${response.body}');
+        final data = json.decode(response.body);
+        if (data['status'] == 'success') {
+          callHistory.assignAll(data['data'] ?? []);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error fetching call history: $e');
+      // Optionally set errorMessage
+    }
+  }
+
   Future<UserProfile?> fetchProfile(String userId) async {
     try {
       final resp = await http.post(
@@ -119,6 +153,7 @@ class MatchesController extends GetxController {
     }
     return null;
   }
+
   Future<void> viewProfile(BuildContext context, String userId, String cardId) async {
     cardLoadingStates[cardId] = true;
     final profile = await fetchProfile(userId);

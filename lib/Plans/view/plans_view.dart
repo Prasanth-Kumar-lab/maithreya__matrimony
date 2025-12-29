@@ -31,9 +31,9 @@ class PlansScreen extends StatelessWidget {
                   Expanded(
                     child: Obx(() {
                       if (controller.isLoading.value) {
-                        return const Center(
+                        return Center(
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.subscriptionsPlansCard),
                           ),
                         );
                       }
@@ -44,7 +44,7 @@ class PlansScreen extends StatelessWidget {
                         return const Center(
                           child: Text(
                             'No plans available',
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                            style: TextStyle(fontSize: 18, color: AppColors.textColor),
                           ),
                         );
                       }
@@ -64,7 +64,7 @@ class PlansScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Lottie.asset(
-                      'assets/payment_loading.json',
+                      LottieAssets.paymentLoading,
                       width: 150,
                       height: 150,
                       fit: BoxFit.contain,
@@ -75,7 +75,7 @@ class PlansScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: AppColors.fontWeight,
                       ),
                     ),
                   ],
@@ -96,7 +96,7 @@ class PlansScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.asset(
-                            'assets/payment_success.json',
+                            LottieAssets.paymentSuccess,
                             width: 250,
                             height: 250,
                             fit: BoxFit.contain,
@@ -107,7 +107,7 @@ class PlansScreen extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: AppColors.fontWeight,
                             ),
                           ),
                         ],
@@ -118,7 +118,7 @@ class PlansScreen extends StatelessWidget {
                       top: 40,
                       right: 20,
                       child: IconButton(
-                        icon: Icon(Icons.close, color: Colors.white, size: 28),
+                        icon: Icon(Icons.close, color: AppColors.iconColor, size: 28),
                         onPressed: () {
                           controller.isPaymentSuccess.value = false;
                         },
@@ -139,9 +139,9 @@ class PlansScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
       width: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF0D47A1), Color(0xFF1976D2)],
+          colors: [AppColors.subscriptionsPlansCardGradient.shade900, AppColors.subscriptionsPlansCardGradient.shade700],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -155,9 +155,9 @@ class PlansScreen extends StatelessWidget {
           Text(
             'Subscription Plans',
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.subscriptionTitleColor,
               fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontWeight: AppColors.fontWeight,
               letterSpacing: 0.5,
             ),
           ),
@@ -186,7 +186,7 @@ class PlansScreen extends StatelessWidget {
             const SizedBox(height: 16),
             const Text(
               'Something went wrong',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18, fontWeight: AppColors.fontWeight),
             ),
             const SizedBox(height: 8),
             Text(
@@ -226,8 +226,8 @@ class PlansScreen extends StatelessWidget {
             'Choose Your Perfect Plan',
             style: TextStyle(
               fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+              fontWeight: AppColors.fontWeight,
+              color: AppColors.textColor,
             ),
           ).animate(onPlay: (controller) => controller)
               .shimmer(duration: 2500.ms, color: Colors.white),
@@ -243,20 +243,12 @@ class PlansScreen extends StatelessWidget {
   }
 
   Widget _buildPlanCard(Plan plan, bool isPopular) {
-    // All cards will now have the same neutral background
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white, // Neutral background for all cards
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
+        color: AppColors.plansCardColor,
       ),
       child: Padding(
         padding: const EdgeInsets.all(22),
@@ -265,35 +257,45 @@ class PlansScreen extends StatelessWidget {
           children: [
             // Show badge if popular
             if (isPopular)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade700,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Most Popular',
-                  style: TextStyle(
-                    color: Colors.white, // Badge text color
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                  ),
-                ),
+              TweenAnimationBuilder<Color?>(
+                tween: ColorTween(begin: Colors.white, end: Colors.red),
+                duration: Duration(seconds: 1),
+                builder: (context, color, child) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.shade700,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      'Most Popular',
+                      style: TextStyle(
+                        color: color,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  );
+                },
+                onEnd: () {
+                  // Restart the animation in a loop
+                  Future.delayed(Duration.zero, () {
+                    // Forces rebuild to restart color tween
+                  });
+                },
               ),
             if (isPopular) const SizedBox(height: 10),
+
             // Plan name
             Text(
               plan.name,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textColor, // Neutral text color
+                color: AppColors.textColor,
               ),
-            ).animate(onPlay: (controller) => controller.repeat()).shimmer(
-              duration: 2000.ms,
-              color: Colors.white,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             // Plan duration
             Text(
               plan.duration,
@@ -302,16 +304,20 @@ class PlansScreen extends StatelessWidget {
                 color: Colors.grey[700],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
+            // Plan price
             Text(
-              '\u20B9${plan.price}',
+              '${AppColors.currencyUniCode} ${plan.price}',
               style: TextStyle(
                 fontSize: 36,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.bold,
                 color: AppColors.textColor,
               ),
             ),
+
             const SizedBox(height: 20),
+
+            // Upgrade button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -332,8 +338,11 @@ class PlansScreen extends StatelessWidget {
                   'Upgrade now',
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: AppColors.fontWeight,
                   ),
+                ).animate(onPlay: (controller) => controller).shimmer(
+                  duration: 2000.ms,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -342,4 +351,5 @@ class PlansScreen extends StatelessWidget {
       ),
     );
   }
+
 }

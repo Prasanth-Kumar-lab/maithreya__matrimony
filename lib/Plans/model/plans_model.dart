@@ -14,8 +14,8 @@ class Plan {
   factory Plan.fromJson(Map<String, dynamic> json) {
     return Plan(
       id: json['id'].toString(),
-      name: json['name'] ?? 'Unknown',
-      duration: json['duration'] ?? 'N/A',
+      name: json['plan_name'] ?? 'Unknown',
+      duration: json['plan_type'] ?? 'N/A',
       price: json['price'].toString(),
     );
   }

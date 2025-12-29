@@ -10,6 +10,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'LoginPage/view/loginpage_view.dart';
 import 'SignUp/view/signup_view.dart';
 import 'SplashScreen/view/splashScreen_view.dart';
+import 'notificationService.dart';
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  // No need to show local notification here – FCM handles tray display automatically
+  print('Background message: ${message.notification?.title}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +26,9 @@ void main() async {
   await Permission.camera.request();
   await Permission.photos.request();
   await Permission.notification.request();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await NotificationService.initialize();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -68,7 +78,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/signup', page: () => SignupView()),
         GetPage(name: '/home', page: () => HomeScreen(userId: Get.find<HomeController>().currentUserId)),
-        GetPage(name: '/forgot_password', page: () => Center(child: Text('data'))),
       ],
     ));
   }

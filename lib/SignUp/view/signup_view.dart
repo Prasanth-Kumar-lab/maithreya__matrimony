@@ -61,7 +61,7 @@ class SignupView extends StatelessWidget {
                     child: SingleChildScrollView(
                       padding: EdgeInsets.all(24),
                       child: Form(
-                        key: controller.formKey,
+                        key: controller.formKeyyy,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [

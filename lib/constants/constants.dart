@@ -11,7 +11,10 @@ class AppColors{
   static const fontWeight = FontWeight.bold;
   static const textColor = Colors.black;
   static const iconColor = Colors.white;
+  static const profileIconsColor = Colors.black;
   static const textFieldIconColor = Colors.black;
+  static const plansCardColor = Colors.white;
+  static const currencyUniCode = '\u20B9';
   static const appBarIconColor = Colors.black;
   static const buttonColor = Colors.orange;
   static const forgotPassword = Colors.blue;
@@ -31,6 +34,14 @@ class AppColors{
   static final listPhotosHighlightColor = Colors.white.withOpacity(0.5);
   static const listPhotoshoverColor = Colors.white;
   static const tabBackgroundColorbtmNavBar = Colors.white;
+  static const subscriptionsPlansCard = Colors.blueAccent;
+  static const subscriptionsPlansCardGradient = Colors.blue;
+  static const subscriptionTitleColor = Colors.white;
+  static const clockBorderSide = Border(
+   top: BorderSide(color: Colors.green, width: 2),
+  bottom: BorderSide(color: Colors.green, width: 2),
+  );
+
 }
 
 class ActionButtonIcons{
@@ -52,6 +63,8 @@ class Chips{
 class LottieAssets {
   static const registrationLottie = 'assets/Stream of Hearts.json';
   static const fetchingProfile = 'assets/fetching.json';
+  static const paymentLoading ='assets/payment_loading.json';
+  static const paymentSuccess = 'assets/payment_success.json';
 }
 
 

@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:matrimony/apiEndPoint.dart';
 
 class SignupController extends GetxController {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKeyyy = GlobalKey<FormState>();
 
   // Text controllers
   final TextEditingController nameController = TextEditingController();
@@ -65,7 +65,7 @@ class SignupController extends GetxController {
       return;
     }
 
-    if (!formKey.currentState!.validate()) return;
+    if (!formKeyyy.currentState!.validate()) return;
 
     if (password.value != confirmPassword.value) {
       errorMessage.value = 'Passwords do not match';

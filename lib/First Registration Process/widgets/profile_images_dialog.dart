@@ -6,7 +6,6 @@ void showPhotoDialog({
   int initialIndex = 0,
 }) {
   int currentIndex = initialIndex;
-
   showDialog(
     context: context,
     builder: (context) {
@@ -19,14 +18,18 @@ void showPhotoDialog({
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    photos[currentIndex],
-                    fit: BoxFit.contain,
-                    errorBuilder: (_, __, ___) =>
-                    const Icon(Icons.broken_image, size: 60),
+                  child: SizedBox(
+                    height: 400,
+                    width: 300,
+                    child: Image.network(
+                      photos[currentIndex],
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                      errorBuilder: (_, __, ___) =>
+                      const Icon(Icons.broken_image, size: 60),
+                    ),
                   ),
                 ),
-
                 if (currentIndex > 0)
                   Positioned(
                     left: 8,

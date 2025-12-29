@@ -262,7 +262,7 @@ import '../../UserProfile/model/userProfile_model.dart';
 
 class LoginController extends GetxController {
   final LoginModel model = LoginModel();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKeyy = GlobalKey<FormState>();
   final TextEditingController emailOrPhoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   var emailOrPhone = ''.obs;
@@ -458,7 +458,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
-    if (formKey.currentState!.validate()) {
+    if (formKeyy.currentState!.validate()) {
       isLoading.value = true;
       try {
         final uri = Uri.parse(ApiEndPoint.loginEndPoint);
@@ -535,6 +535,6 @@ class LoginController extends GetxController {
   }
 
   void forgotPassword() {
-    Get.toNamed('/forgot_password');
+
   }
 }

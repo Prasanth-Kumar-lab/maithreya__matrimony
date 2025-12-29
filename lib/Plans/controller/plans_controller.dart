@@ -46,8 +46,8 @@ class PlansController extends GetxController {
       );
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        if (data['status'] == 'success') {
-          final List<dynamic> planList = data['available_plans'];
+        if (data['status'] == 'Success') {
+          final List<dynamic> planList = data['plans'];
           plans.value = planList.map((e) => Plan.fromJson(e)).toList();
         } else {
           errorMessage.value = data['message'] ?? 'Unknown error';

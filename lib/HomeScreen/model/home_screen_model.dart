@@ -88,11 +88,11 @@ class UserProfiles {
     }
     // device_tokens might be String or List — normalize to String
     String tokenValue = '';
-    if (json['device_tokens'] != null) {
-      if (json['device_tokens'] is List && (json['device_tokens'] as List).isNotEmpty) {
-        tokenValue = (json['device_tokens'] as List).first.toString();
-      } else if (json['device_tokens'] is String) {
-        tokenValue = json['device_tokens'];
+    if (json['device_token'] != null) {
+      if (json['device_token'] is List && (json['device_token'] as List).isNotEmpty) {
+        tokenValue = (json['device_token'] as List).first.toString();
+      } else if (json['device_token'] is String) {
+        tokenValue = json['device_token'];
       }
     }
     return UserProfiles(
